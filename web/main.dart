@@ -4,16 +4,34 @@ import 'dart:html';
 import 'package:json2dart_serialization/generator.dart';
 
 void main() {
-  querySelector("#format").onClick.listen((event) {
-    TextAreaElement e = querySelector("#json");
-    var string = e.value;
-    var pretty = formatJson(string);
-    e.value = pretty;
+  TextAreaElement jsonInput = querySelector("#json");
+  jsonInput.onInput.listen((event) {
+    var string = jsonInput.value;
+    String pretty;
+    TextAreaElement result = querySelector("#result");
+    try {
+      pretty = formatJson(string);
+    } on Exception {
+      print("格式化错误");
+      result.value = "不是一个正确的json";
+      return;
+    }
 
     var generator = Generator(string, 'test.dart');
     var dartCode = generator.makeDartCode();
-    TextAreaElement result = querySelector("#result");
+
     result.value = dartCode;
+  });
+
+  ButtonElement formatButton = querySelector("#format");
+  formatButton.onClick.listen((click) {
+    String pretty;
+    try {
+      pretty = formatJson(jsonInput.value);
+    } on Exception {
+      return;
+    }
+    jsonInput.value = pretty;
   });
 }
 
