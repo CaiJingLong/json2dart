@@ -26,3 +26,11 @@ textarea {
     width: 90%;
     height: 90vh;
 }
+
+.result_title {
+    padding-bottom: 15px;
+}
+
+.out_entity_name{
+    height: 40px;
+}
