@@ -87,7 +87,7 @@ class $className extends Object with _\$${className}SerializerMixin {""";
 
   @override
   String method() {
-    return "  factory $className.fromJson(Map<String, dynamic> srcJson) => _\$${className}(srcJson);";
+    return "  factory $className.fromJson(Map<String, dynamic> srcJson) => _\$${className}FromJson(srcJson);";
   }
 
   List<Field> get fieldList => FieldHelper(srcJson).getFields();
