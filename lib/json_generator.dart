@@ -49,7 +49,8 @@ void main() {
   void onJsonKeyChange() {
     useJsonKey = eJsonKey.checked;
     eCamelCase.disabled = !useJsonKey;
-    isCamelCase = false;
+    isCamelCase = eCamelCase.checked;
+    if (!useJsonKey) isCamelCase = false;
     refreshData();
   }
 
