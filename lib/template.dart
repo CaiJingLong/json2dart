@@ -60,7 +60,7 @@ class $className extends Object with _\$${className}SerializerMixin {""";
       }
       String nameString;
       if (main.isCamelCase) {
-        nameString = camelCase(f.nameString);
+        nameString = firstLetterLower(camelCase(f.nameString));
       } else {
         nameString = f.nameString;
       }

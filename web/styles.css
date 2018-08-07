@@ -24,13 +24,18 @@ body {
 
 textarea {
     width: 90%;
-    height: 90vh;
+    height: 80vh;
 }
 
 .result_title {
     padding-bottom: 15px;
 }
 
-.out_entity_name{
+#result {
+    width: 90%;
+    height: 70vh;
+}
+
+.out_entity_name {
     height: 40px;
 }

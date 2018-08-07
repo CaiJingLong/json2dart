@@ -75,6 +75,14 @@ void main() {
   });
 
   refreshData();
+
+  querySelector("#copy").onClick.listen((event) {
+    TextAreaElement result = querySelector("#result");
+    result.focus();
+    result.setSelectionRange(0, result.textLength);
+    document.execCommand("copy", null, "");
+    result.blur();
+  });
 }
 
 void refreshData() {
@@ -95,8 +103,10 @@ void refreshData() {
     entityClassName = entityName;
   }
 
-  var generator = Generator(string, 'test.dart', entityClassName);
+  var generator = Generator(string, entityClassName);
   var dartCode = generator.makeDartCode();
+  var dartFileName = ("${generator.fileName}.dart");
+  querySelector("#file_name").text = "应该使用的文件名为: $dartFileName";
 
   result.value = dartCode;
 }
