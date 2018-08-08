@@ -31,7 +31,13 @@ class DefaultTemplate extends Template {
     var fieldList = FieldHelper(srcJson).getFields();
     var filedString = StringBuffer();
     fieldList.forEach((f) {
-      filedString.write("this.${f.nameString},");
+      String name;
+      if (main.isCamelCase) {
+        name = camelCase(f.nameString);
+      } else {
+        name = f.nameString;
+      }
+      filedString.write("this.$name,");
     });
     return "${tab}$className($filedString);";
   }
