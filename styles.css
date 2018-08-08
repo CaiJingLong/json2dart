@@ -62,7 +62,7 @@ textarea {
 }
 
 button {
-  width: 5rem;
+  width: 6rem;
   height: 2rem;
   font-size: 1rem;
 }
@@ -71,4 +71,18 @@ button {
   font-size: 0.5rem;
   padding-top: 5px;
   color: mediumvioletred;
+}
+
+.lang {
+  padding-right: 1vw;
+  padding-top: 1vh;
+  text-align: right;
+}
+
+a {
+  color: blue;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration-line: underline;
 }
