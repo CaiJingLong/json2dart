@@ -26,7 +26,6 @@ class Generator {
 
   void refreshTemplate(DefaultTemplate template) {
     var fieldList = template.fieldList;
-    bool needRefresh = false;
     fieldList.forEach((filed) {
       if (filed is MapField) {
 //        filed.typeString

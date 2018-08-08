@@ -9,6 +9,8 @@ bool useJsonKey = true;
 
 bool isCamelCase = true;
 
+var downloadFileName = "";
+
 const defaultValue = """{
   "body": "",
   "data": [1],
@@ -45,6 +47,7 @@ void main() {
 
   InputElement eJsonKey = querySelector("#use_json_key");
   InputElement eCamelCase = querySelector("#camelCase");
+  TextAreaElement result = querySelector("#result");
 
   void onJsonKeyChange() {
     useJsonKey = eJsonKey.checked;
@@ -78,11 +81,26 @@ void main() {
   refreshData();
 
   querySelector("#copy").onClick.listen((event) {
-    TextAreaElement result = querySelector("#result");
     result.focus();
     result.setSelectionRange(0, result.textLength);
     document.execCommand("copy", null, "");
     result.blur();
+  });
+
+  ButtonElement saveButton = querySelector("#save");
+  saveButton.onClick.listen((event) async {
+    Blob blob = Blob([result.value]);
+    // FileSystem _filesystem =
+    //     await window.requestFileSystem(1024 * 1024, persistent: false);
+    // FileEntry fileEntry = await _filesystem.root.createFile('dart_test.csv');
+    // FileWriter fw = await fileEntry.createWriter();
+    // fw.write(blob);
+    // File file = await fileEntry.file();
+    AnchorElement saveLink = document.createElementNS("http://www.w3.org/1999/xhtml", "a");
+    saveLink.href = Url.createObjectUrlFromBlob(blob);
+    // saveLink.type = "download";
+    saveLink.download = downloadFileName;
+    saveLink.click();
   });
 }
 
@@ -107,6 +125,7 @@ void refreshData() {
   var generator = Generator(string, entityClassName);
   var dartCode = generator.makeDartCode();
   var dartFileName = ("${generator.fileName}.dart");
+  downloadFileName = dartFileName;
   querySelector("#file_name").text = "应该使用的文件名为: $dartFileName";
 
   result.value = dartCode;
