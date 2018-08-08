@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:html';
 
@@ -21,12 +22,14 @@ var downloadFileName = "";
 // }""";
 const defaultValue = "";
 
-void main() {
+void main() async {
+  isChinese = await _isChinese();
+
   TextAreaElement jsonInput = querySelector("#json");
   jsonInput.value = defaultValue;
 
   jsonInput.onInput.listen((event) {
-    print(jsonInput.value);
+    // print(jsonInput.value);
     refreshData();
   });
 
@@ -106,7 +109,28 @@ void main() {
   });
 }
 
-void refreshData() {
+Future<bool> _isChinese() async {
+  // var lang = await findSystemLocale();
+  List<MetaElement> elements = querySelectorAll("meta");
+
+  String lang;
+  for (var e in elements) {
+    var _lang = e.getAttribute("lang");
+    if (_lang != null) {
+      lang = _lang;
+      break;
+    }
+  }
+  if (lang?.contains("zh") == true) {
+    return true;
+  }
+
+  return false;
+}
+
+bool isChinese = false;
+
+void refreshData() async {
   TextAreaElement jsonInput = querySelector("#json");
   var string = jsonInput.value;
   String pretty;
@@ -114,7 +138,11 @@ void refreshData() {
   try {
     pretty = formatJson(string);
   } on Exception {
-    result.value = "不是一个正确的json";
+    if (isChinese) {
+      result.value = "不是一个正确的json";
+    } else {
+      result.value = "Not JSON";
+    }
     return;
   }
   String entityClassName;
@@ -128,7 +156,15 @@ void refreshData() {
   var dartCode = generator.makeDartCode();
   var dartFileName = ("${generator.fileName}.dart");
   downloadFileName = dartFileName;
-  querySelector("#file_name").text = "应该使用的文件名为: $dartFileName";
+
+  String filePrefix;
+  if (isChinese) {
+    filePrefix = "应该使用的文件名为:";
+  } else {
+    filePrefix = "your dart file name is:";
+  }
+  print(filePrefix);
+  querySelector("#file_name").text = "$filePrefix $dartFileName";
 
   result.value = dartCode;
 }
