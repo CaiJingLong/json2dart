@@ -11,20 +11,22 @@ bool isCamelCase = true;
 
 var downloadFileName = "";
 
-const defaultValue = """{
-  "body": "",
-  "data": [1],
-  "input_content":["1"],
-  "list1":[{"name":"hello"}],
-  "number": [1.02],
-  "user":{"name":"abc"}
-}""";
+// const defaultValue = """{
+//   "body": "",
+//   "data": [1],
+//   "input_content":["1"],
+//   "list1":[{"name":"hello"}],
+//   "number": [1.02],
+//   "user":{"name":"abc"}
+// }""";
+const defaultValue = "";
 
 void main() {
   TextAreaElement jsonInput = querySelector("#json");
   jsonInput.value = defaultValue;
 
   jsonInput.onInput.listen((event) {
+    print(jsonInput.value);
     refreshData();
   });
 

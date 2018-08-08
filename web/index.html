@@ -7,42 +7,46 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="scaffolded-by" content="https://github.com/google/stagehand" />
-    <title>hello_world</title>
+    <title>json2dart_for_json_serializable</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="favicon.ico">
     <script defer src="main.dart.js"></script>
 </head>
 
 <body>
-
+    <h1>为了便利使用json_serializable库</h1>
     <div>
-        <div id="input" class="textarea">
-            <div class="top">
-                将json粘贴至左边
-            </div>
-            <textarea id="json" title="json字符串"></textarea>
-            <div>
-                <button id="format">格式化</button>
-            </div>
+        <div class="title">
+            <span class="half_span">将json粘贴至左边</span>
+            <span class="half_span">
+                <div class="result_title">
+                    类名称
+                    <input id="out_entity_name" />
+                    <input type="checkbox" id="use_json_key" />
+                    <span id="check_label">jsonKey annotation</span>
+                    <input type="checkbox" id="camelCase" />
+                    <span id="camelCaseLabel">use camelCase</span>
+                </div>
+                <div id="file_name"></div>
+            </span>
         </div>
-        <div id="output" class="textarea">
-            <div class="top"></div>
-            <div class="result_title">
-                类名称
-                <input id="out_entity_name" />
-                <input type="checkbox" id="use_json_key" />
-                <span id="check_label">jsonKey annotation</span>
-                <input type="checkbox" id="camelCase" />
-                <span id="camelCaseLabel">use camelCase</span>
-            </div>
-            <div id="file_name"></div>
-            <textarea id="result" title="结果"></textarea>
-            <div>
+        <div class="content">
+            <span class="half_span">
+                <textarea id="json" title="json字符串" class="content_area"></textarea>
+            </span>
+            <span class="half_span">
+                <textarea id="result" title="结果" class="content_area"></textarea>
+            </span>
+        </div>
+        <div class="func">
+            <span class="half_span">
+                <button id="format">格式化</button>
+            </span>
+            <span class="half_span">
                 <button id="copy">复制</button>
                 <button id="save">下载</button>
-            </div>
+            </span>
         </div>
-
     </div>
 </body>
 

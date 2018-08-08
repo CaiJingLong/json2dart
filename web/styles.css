@@ -2,40 +2,73 @@
 
 html,
 body {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    font-family: "Roboto", sans-serif;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
 }
-
+/* 
 .top {
-    height: 4vh;
-    text-align: center;
-    padding-top: 1vh;
-}
-
-.textarea {
-    width: 50%;
-    height: 90%;
-    text-align: center;
-    float: left;
-}
-
-textarea {
-    width: 90%;
-    height: 80vh;
+  height: 4vh;
+  text-align: center;
+  padding-top: 1vh;
 }
 
 .result_title {
-    padding-bottom: 15px;
+  padding-bottom: 15px;
 }
 
-#result {
-    width: 90%;
-    height: 70vh;
+.textarea {
+  width: 50%;
+  height: 90%;
+  text-align: center;
+  float: left;
+}
+
+.content_area {
+  width: 80%;
+  height: 90vh;
+  text-align: center;
+  float: left;
 }
 
 .out_entity_name {
-    height: 40px;
+  height: 40px;
+} */
+
+h1 {
+  text-align: center;
+}
+
+.half_span {
+  width: 50%;
+  float: left;
+  text-align: center;
+}
+
+textarea {
+  width: 86%;
+  height: 70vh;
+}
+
+.content {
+  padding-top: 5vh;
+}
+
+.func .half_span {
+  height: 7rem;
+  padding-top: 1rem;
+}
+
+button {
+  width: 5rem;
+  height: 2rem;
+  font-size: 1rem;
+}
+
+#file_name {
+  font-size: 0.5rem;
+  padding-top: 5px;
+  color: mediumvioletred;
 }
