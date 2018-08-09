@@ -36,6 +36,7 @@ void main() async {
 
   InputElement entityNameEle = querySelector("#out_entity_name");
   entityNameEle.value = dataHelper.loadEntityName();
+  entityName = entityNameEle.value;
   entityNameEle.onInput.listen((event) {
     entityName = entityNameEle.value;
     dataHelper.saveEntityName(entityName);
