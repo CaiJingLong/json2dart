@@ -114,7 +114,7 @@ class FieldHelper {
         } else if (v is String) {
           list.add(SimpleField("String", k));
         } else if (v is int) {
-          list.add(SimpleField("int", k));
+          list.add(SimpleField("num", k));
         } else if (v is double) {
           list.add(SimpleField("double", k));
         } else if (v is bool) {
