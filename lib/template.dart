@@ -174,7 +174,7 @@ class ListField extends Field {
       type = "${ListField(item, "").typeString}";
     } else if (item is Map<String, dynamic>) {
       type = "${firstLetterUpper(nameString)}";
-    } else if (item is int) {
+    } else if (item is num) {
       type = "int";
     } else if (item is double) {
       type = "double";
