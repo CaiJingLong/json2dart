@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:html';
 
 import 'package:json2dart_serialization/generator.dart';
+import 'package:json2dart_serialization/storage.dart';
 
 String entityName = null;
 
@@ -24,12 +25,12 @@ const defaultValue = "";
 
 void main() async {
   isChinese = await _isChinese();
-
+  var dataHelper = CookieHelper();
   TextAreaElement jsonInput = querySelector("#json");
-  jsonInput.value = defaultValue;
+  jsonInput.value = dataHelper.loadJsonString();
 
   jsonInput.onInput.listen((event) {
-    // print(jsonInput.value);
+    dataHelper.saveJsonString(jsonInput.value);
     refreshData();
   });
 
