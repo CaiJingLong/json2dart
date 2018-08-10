@@ -45,7 +45,11 @@ class DefaultTemplate extends Template {
   @override
   String declare() {
     return """@JsonSerializable()
-class $className extends Object with _\$${className}SerializerMixin {""";
+  class $className extends Object ${interface()}{""";
+  }
+
+  String interface() {
+    return "with _\$${className}SerializerMixin";
   }
 
   @override
@@ -97,6 +101,76 @@ class $className extends Object with _\$${className}SerializerMixin {""";
   }
 
   List<Field> get fieldList => FieldHelper(srcJson).getFields();
+
+  bool get isList => json.decode(srcJson) is List;
+
+  ListTemplate getListTemplate() {
+    if (this is ListTemplate) {
+      return this;
+    }
+    return ListTemplate(srcJson: srcJson, className: className, delegateTemplate: this);
+  }
+}
+
+class ListTemplate extends DefaultTemplate {
+  Template delegateTemplate;
+
+  ListTemplate({String srcJson, String className = "Entity", this.delegateTemplate}) : super(className: className, srcJson: srcJson);
+
+  @override
+  String declare() {
+    return _declareListMethod() + "\n" + delegateTemplate?.declare() ?? super.declare();
+  }
+
+  String _declareListMethod() {
+    var listMethod = """List<$className> get${className}List(List<dynamic> list){
+    List<$className> result = [];
+    list.forEach((item){
+      result.add($className.fromJson(item));
+    });
+    return result;
+  }""";
+    return listMethod;
+  }
+
+  @override
+  String constructor() {
+    return delegateTemplate?.constructor() ?? super.constructor();
+  }
+
+  @override
+  String field() {
+    return delegateTemplate?.field() ?? super.field();
+  }
+
+  @override
+  String method() {
+    return delegateTemplate?.method() ?? super.method();
+  }
+
+  @override
+  String end() {
+    return delegateTemplate?.end() ?? super.end();
+  }
+
+  @override
+  List<Field> get fieldList => FieldHelper(json.encode(json.decode(srcJson)[0])).getFields();
+}
+
+class V1Template extends DefaultTemplate {
+  V1Template({String srcJson, String className = "Entity"}) : super(className: className, srcJson: srcJson);
+
+  @override
+  String interface() => "";
+
+  @override
+  String method() {
+    var result = StringBuffer();
+    result.writeln(super.method());
+    result.writeln();
+    result.write("  Map<String, dynamic> toJson() => _\$${className}ToJson(this);");
+    return result.toString();
+  }
 }
 
 class FieldHelper {
@@ -104,26 +178,35 @@ class FieldHelper {
 
   FieldHelper(this.srcJson);
 
+  List<Field> _getMapFiled(Map<String, dynamic> map) {
+    List<Field> list = [];
+    map.forEach((k, v) {
+      if (v is List) {
+        list.add(ListField(v, k));
+      } else if (v is String) {
+        list.add(SimpleField("String", k));
+      } else if (v is int) {
+        list.add(SimpleField("num", k));
+      } else if (v is double) {
+        list.add(SimpleField("double", k));
+      } else if (v is bool) {
+        list.add(SimpleField("bool", k));
+      } else if (v is Map<String, dynamic>) {
+        list.add(MapField(v, k));
+      }
+    });
+    return list;
+  }
+
   List<Field> getFields() {
     var j = json.decode(srcJson);
     if (j is Map<String, dynamic>) {
-      List<Field> list = [];
-      j.forEach((k, v) {
-        if (v is List) {
-          list.add(ListField(v, k));
-        } else if (v is String) {
-          list.add(SimpleField("String", k));
-        } else if (v is int) {
-          list.add(SimpleField("num", k));
-        } else if (v is double) {
-          list.add(SimpleField("double", k));
-        } else if (v is bool) {
-          list.add(SimpleField("bool", k));
-        } else if (v is Map<String, dynamic>) {
-          list.add(MapField(v, k));
-        }
-      });
-      return list;
+      return _getMapFiled(j);
+    } else if (j is List) {
+      var item = j[0];
+      if (item is Map<String, dynamic>) {
+        return _getMapFiled(item);
+      }
     }
     return [];
   }

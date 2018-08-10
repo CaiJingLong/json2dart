@@ -1,21 +1,37 @@
 import 'dart:convert';
 
+import 'package:json2dart_serialization/json_generator.dart';
 import 'package:json2dart_serialization/template.dart';
 
 class Generator {
   String jsonString;
   String entityName;
+  Version version;
 
-  Generator(this.jsonString, [this.entityName]);
+  Generator(this.jsonString, [this.entityName, this.version = Version.v0]);
 
   List<DefaultTemplate> templateList = [];
 
   String makeDartCode() {
     var entityName = this.entityName ?? "Entity";
-    DefaultTemplate template = DefaultTemplate(srcJson: jsonString, className: entityName);
+    DefaultTemplate template;
+    if (version == Version.v1) {
+      template = V1Template(srcJson: jsonString, className: entityName);
+    } else {
+      template = DefaultTemplate(srcJson: jsonString, className: entityName);
+    }
+
     StringBuffer resultSb = StringBuffer();
-    templateList.add(template);
-    refreshTemplate(template);
+    if (!template.isList) {
+      templateList.add(template);
+      refreshTemplate(template);
+      // return resultSb.toString();
+    } else {
+      var listTemplate = template.getListTemplate();
+      templateList.add(listTemplate);
+
+      refreshTemplate(template);
+    }
 
     resultSb.writeln(header);
     templateList.forEach((template) {

@@ -23,6 +23,10 @@ var downloadFileName = "";
 // }""";
 const defaultValue = "";
 
+enum Version { v0, v1 }
+
+Version v = Version.v0;
+
 void main() async {
   isChinese = await _isChinese();
   var dataHelper = CookieHelper();
@@ -57,6 +61,39 @@ void main() async {
   InputElement eJsonKey = querySelector("#use_json_key");
   InputElement eCamelCase = querySelector("#camelCase");
   TextAreaElement result = querySelector("#result");
+  RadioButtonInputElement v0 = querySelector("#v0");
+  RadioButtonInputElement v1 = querySelector("#v1");
+
+  void updateVersioin() {
+    if (v1.checked) {
+      v = Version.v1;
+    } else {
+      v = Version.v0;
+    }
+
+    dataHelper.saveVersion(v);
+  }
+
+  void updateVersionUI() {
+    if (v == Version.v1) {
+      v1.checked = true;
+    } else {
+      v1.checked = false;
+    }
+  }
+
+  v = dataHelper.loadVersion();
+
+  updateVersionUI();
+
+  v0.onInput.listen((event) {
+    updateVersioin();
+    refreshData();
+  });
+  v1.onInput.listen((event) {
+    updateVersioin();
+    refreshData();
+  });
 
   void onJsonKeyChange() {
     useJsonKey = eJsonKey.checked;
@@ -137,10 +174,10 @@ bool isChinese = false;
 void refreshData() async {
   TextAreaElement jsonInput = querySelector("#json");
   var string = jsonInput.value;
-  String pretty;
   TextAreaElement result = querySelector("#result");
+
   try {
-    pretty = formatJson(string);
+    formatJson(string);
   } on Exception {
     if (isChinese) {
       result.value = "不是一个正确的json";
@@ -156,7 +193,7 @@ void refreshData() async {
     entityClassName = entityName;
   }
 
-  var generator = Generator(string, entityClassName);
+  var generator = Generator(string, entityClassName, v);
   var dartCode = generator.makeDartCode();
   var dartFileName = ("${generator.fileName}.dart");
   downloadFileName = dartFileName;
@@ -167,7 +204,7 @@ void refreshData() async {
   } else {
     filePrefix = "your dart file name is:";
   }
-  print(filePrefix);
+  // print(filePrefix);
   querySelector("#file_name").text = "$filePrefix $dartFileName";
 
   result.value = dartCode;
