@@ -21,42 +21,47 @@
             <img src="github_logo.jpg" width="50px" />
         </a>
     </div>
-    <h1>simple use
-        <a href="https://pub.dartlang.org/packages/json_serializable" target="_blank">json_serializable</a>
-    </h1>
     <div>
-        <div class="title">
-            <span class="half_span">copy your json to left textarea</span>
-            <span class="half_span">
-                <div class="result_title">
-                    dart class name
-                    <input id="out_entity_name" />
-                    <input type="checkbox" id="use_json_key" />
-                    <span id="check_label">jsonKey annotation</span>
-                    <input type="checkbox" id="camelCase" />
-                    <span id="camelCaseLabel">use camelCase</span>
-                </div>
-                <div id="file_name"></div>
-            </span>
+        <h1>simple use
+            <a href="https://pub.dartlang.org/packages/json_serializable" target="_blank">json_serializable</a>
+        </h1>
+        <div class="version">
+            <input class="version" type="radio" value="0" name="version" id="v0" checked="true">v0.x.x</input>
+            <input class="version" type="radio" value="1" name="version" id="v1">v1.x.x</input>
         </div>
-        <div class="content">
-            <span class="half_span">
-                <textarea id="json" title="json" class="content_area"></textarea>
-            </span>
-            <span class="half_span">
-                <textarea id="result" title="result" class="content_area"></textarea>
-            </span>
+        <div>
+            <div class="title">
+                <span class="half_span">copy your json to left textarea</span>
+                <span class="half_span">
+                    <div class="result_title">
+                        dart class name
+                        <input id="out_entity_name" />
+                        <input type="checkbox" id="use_json_key" />
+                        <span id="check_label">jsonKey annotation</span>
+                        <input type="checkbox" id="camelCase" />
+                        <span id="camelCaseLabel">use camelCase</span>
+                    </div>
+                    <div id="file_name"></div>
+                </span>
+            </div>
+            <div class="content">
+                <span class="half_span">
+                    <textarea id="json" title="json" class="content_area"></textarea>
+                </span>
+                <span class="half_span">
+                    <textarea id="result" title="result" class="content_area"></textarea>
+                </span>
+            </div>
+            <div class="func">
+                <span class="half_span">
+                    <button id="format">format</button>
+                </span>
+                <span class="half_span">
+                    <button id="copy">copy</button>
+                    <button id="save">download</button>
+                </span>
+            </div>
         </div>
-        <div class="func">
-            <span class="half_span">
-                <button id="format">format</button>
-            </span>
-            <span class="half_span">
-                <button id="copy">copy</button>
-                <button id="save">download</button>
-            </span>
-        </div>
-    </div>
 </body>
 
 </html>
