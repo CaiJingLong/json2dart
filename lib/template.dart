@@ -186,7 +186,7 @@ class FieldHelper {
       } else if (v is String) {
         list.add(SimpleField("String", k));
       } else if (v is int) {
-        list.add(SimpleField("num", k));
+        list.add(SimpleField("int", k));
       } else if (v is double) {
         list.add(SimpleField("double", k));
       } else if (v is bool) {
@@ -257,7 +257,7 @@ class ListField extends Field {
       type = "${ListField(item, "").typeString}";
     } else if (item is Map<String, dynamic>) {
       type = "${firstLetterUpper(nameString)}";
-    } else if (item is num) {
+    } else if (item is int) {
       type = "int";
     } else if (item is double) {
       type = "double";

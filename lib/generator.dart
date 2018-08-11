@@ -8,7 +8,9 @@ class Generator {
   String entityName;
   Version version;
 
-  Generator(this.jsonString, [this.entityName, this.version = Version.v0]);
+  Generator(this.jsonString, [this.entityName, this.version = Version.v0]) {
+    this.jsonString = convertJsonString(jsonString);
+  }
 
   List<DefaultTemplate> templateList = [];
 
@@ -45,12 +47,14 @@ class Generator {
     fieldList.forEach((filed) {
       if (filed is MapField) {
 //        filed.typeString
-        DefaultTemplate template = DefaultTemplate(srcJson: json.encode(filed.map), className: filed.typeString);
+        DefaultTemplate template = DefaultTemplate(
+            srcJson: json.encode(filed.map), className: filed.typeString);
         templateList.add(template);
         refreshTemplate(template);
       } else if (filed is ListField) {
         if (filed.childIsObject) {
-          DefaultTemplate template = DefaultTemplate(srcJson: json.encode(filed.list[0]), className: filed.typeName);
+          DefaultTemplate template = DefaultTemplate(
+              srcJson: json.encode(filed.list[0]), className: filed.typeName);
           templateList.add(template);
           refreshTemplate(template);
         }
@@ -60,7 +64,8 @@ class Generator {
 
   String get fileName => camelCase2UnderScoreCase(entityName);
 
-  static const String importString = "import 'package:json_annotation/json_annotation.dart';";
+  static const String importString =
+      "import 'package:json_annotation/json_annotation.dart';";
 
   String get header => """$importString 
   
@@ -75,4 +80,31 @@ String camelCase2UnderScoreCase(String name) {
         var str = match.group(0);
         return "_" + str.toLowerCase();
       });
+}
+
+String convertJsonString(String jsonString) {
+  var numberReg = RegExp(r"[0-9]\.[0-9]+");
+
+  //匹配小数数字正则
+  var allMatch = numberReg.allMatches(jsonString).toList();
+
+  for (var i = 0; i < allMatch.length; i++) {
+    //是一个小数数字
+    var m = allMatch[i];
+    var s = m.group(0);
+
+    // if (double.tryParse(s) is double) {
+    //   // 说明是真实的小数
+    //   // 这里直接匹配下一个
+    //   print("$s is double");
+    //   continue;
+    // }
+
+    // print("$s is int");
+
+    // 应该是double，但由于js的原因被识别成了整数数，这里对这种数据进行处理，将这里的最后一位从0替换为1
+    s = s.replaceRange(s.length - 1, s.length, "5");
+    jsonString = jsonString.replaceRange(m.start, m.end, s);
+  }
+  return jsonString;
 }

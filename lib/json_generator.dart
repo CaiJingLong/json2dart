@@ -50,8 +50,9 @@ void main() async {
   ButtonElement formatButton = querySelector("#format");
   formatButton.onClick.listen((click) {
     String pretty;
+    pretty = convertJsonString(jsonInput.value);
     try {
-      pretty = formatJson(jsonInput.value);
+      pretty = formatJson(pretty);
     } on Exception {
       return;
     }
