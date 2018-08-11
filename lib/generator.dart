@@ -82,6 +82,7 @@ String camelCase2UnderScoreCase(String name) {
       });
 }
 
+/// use the string replace's method the resolve the int and double problem.
 String convertJsonString(String jsonString) {
   var numberReg = RegExp(r"[0-9]\.[0-9]+");
 
@@ -93,16 +94,7 @@ String convertJsonString(String jsonString) {
     var m = allMatch[i];
     var s = m.group(0);
 
-    // if (double.tryParse(s) is double) {
-    //   // 说明是真实的小数
-    //   // 这里直接匹配下一个
-    //   print("$s is double");
-    //   continue;
-    // }
-
-    // print("$s is int");
-
-    // 应该是double，但由于js的原因被识别成了整数数，这里对这种数据进行处理，将这里的最后一位从0替换为1
+    // 应该是double，但由于js的原因被识别成了整数数，这里对这种数据进行处理，将这里的最后一位从0替换为5，以便于让该被js识别成小数 而非数字
     s = s.replaceRange(s.length - 1, s.length, "5");
     jsonString = jsonString.replaceRange(m.start, m.end, s);
   }
