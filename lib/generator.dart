@@ -46,7 +46,6 @@ class Generator {
     var fieldList = template.fieldList;
     fieldList.forEach((filed) {
       if (filed is MapField) {
-//        filed.typeString
         DefaultTemplate template = DefaultTemplate(
             srcJson: json.encode(filed.map), className: filed.typeString);
         templateList.add(template);

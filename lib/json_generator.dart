@@ -143,7 +143,8 @@ void main() async {
     // FileWriter fw = await fileEntry.createWriter();
     // fw.write(blob);
     // File file = await fileEntry.file();
-    AnchorElement saveLink = document.createElementNS("http://www.w3.org/1999/xhtml", "a");
+    AnchorElement saveLink =
+        document.createElementNS("http://www.w3.org/1999/xhtml", "a");
     saveLink.href = Url.createObjectUrlFromBlob(blob);
     // saveLink.type = "download";
     saveLink.download = downloadFileName;
