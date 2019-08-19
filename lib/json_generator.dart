@@ -28,10 +28,15 @@ enum Version { v0, v1 }
 
 Version v = Version.v0;
 
+TextAreaElement eResult;
+Element eClassName;
+Element editButton;
 void main() async {
   isChinese = await _isChinese();
   var dataHelper = CookieHelper();
   TextAreaElement jsonInput = querySelector("#json");
+  eClassName = querySelector("#class_name");
+  eResult = querySelector("#result");
   jsonInput.value = dataHelper.loadJsonString();
 
   jsonInput.onInput.listen((event) {
@@ -163,6 +168,15 @@ void main() async {
     saveLink.download = downloadFileName;
     saveLink.click();
   });
+
+  editButton = querySelector("#edit_class");
+  editButton.onClick.listen((event) {
+    showOrClassName();
+  });
+
+  eClassName.onInput.listen((event) {
+    refreshClassNameChange(eClassName.text);
+  });
 }
 
 Future<bool> _isChinese() async {
@@ -185,7 +199,7 @@ Future<bool> _isChinese() async {
 }
 
 bool isChinese = false;
-
+Generator generator;
 void refreshData() async {
   TextAreaElement jsonInput = querySelector("#json");
   var string = jsonInput.value;
@@ -208,7 +222,18 @@ void refreshData() async {
     entityClassName = entityName;
   }
 
-  var generator = Generator(string, entityClassName, v);
+  generator = Generator(string, entityClassName, v);
+  generator.refreshAllTemplates();
+  writeClassNameText(generator);
+  makeCode(generator);
+}
+
+void writeClassNameText(Generator generator) {
+  String names = generator.getClassNameText();
+  eClassName.text = names;
+}
+
+void makeCode(Generator generator) {
   var dartCode = generator.makeDartCode();
   var dartFileName = ("${generator.fileName}.dart");
   downloadFileName = dartFileName;
@@ -222,11 +247,24 @@ void refreshData() async {
   // print(filePrefix);
   querySelector("#file_name").text = "$filePrefix $dartFileName";
 
-  result.value = dartCode;
+  eResult.value = dartCode;
 }
 
 String formatJson(String jsonString) {
   var map = json.decode(jsonString);
   var prettyString = JsonEncoder.withIndent("  ").convert(map);
   return prettyString;
+}
+
+void showOrClassName() {
+  final currentState = !eClassName.hidden;
+
+  eClassName.hidden = !eClassName.hidden;
+  eResult.hidden = !eResult.hidden;
+
+  editButton.text = currentState ? "name" : "result";
+}
+
+void refreshClassNameChange(String text) {
+  generator.changeClassName(text);
 }

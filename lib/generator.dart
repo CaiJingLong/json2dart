@@ -14,7 +14,7 @@ class Generator {
 
   List<DefaultTemplate> templateList = [];
 
-  String makeDartCode() {
+  void refreshAllTemplates() {
     var entityName = this.entityName ?? "Entity";
     DefaultTemplate template;
     if (version == Version.v1) {
@@ -23,7 +23,6 @@ class Generator {
       template = DefaultTemplate(srcJson: jsonString, className: entityName);
     }
 
-    StringBuffer resultSb = StringBuffer();
     if (!template.isList) {
       templateList.add(template);
       refreshTemplate(template);
@@ -34,6 +33,11 @@ class Generator {
 
       refreshTemplate(template);
     }
+  }
+
+  String makeDartCode() {
+    StringBuffer resultSb = StringBuffer();
+    handleTemplate(templateList);
 
     resultSb.writeln(header);
     templateList.forEach((template) {
@@ -42,21 +46,27 @@ class Generator {
     return resultSb.toString();
   }
 
+  void handleTemplate(List<DefaultTemplate> templateList) {}
+
   void refreshTemplate(DefaultTemplate template) {
     var fieldList = template.fieldList;
     fieldList.forEach((filed) {
       if (filed is MapField) {
-        DefaultTemplate template = DefaultTemplate(srcJson: json.encode(filed.map), className: filed.typeString);
+        DefaultTemplate template = DefaultTemplate(
+            srcJson: json.encode(filed.map), className: filed.typeString);
         if (version == Version.v1) {
-          template = V1Template(srcJson: json.encode(filed.map), className: filed.typeString);
+          template = V1Template(
+              srcJson: json.encode(filed.map), className: filed.typeString);
         }
         templateList.add(template);
         refreshTemplate(template);
       } else if (filed is ListField) {
         if (filed.childIsObject) {
-          DefaultTemplate template = DefaultTemplate(srcJson: json.encode(filed.list[0]), className: filed.typeName);
+          DefaultTemplate template = DefaultTemplate(
+              srcJson: json.encode(filed.list[0]), className: filed.typeName);
           if (version == Version.v1) {
-            template = V1Template(srcJson: json.encode(filed.list[0]), className: filed.typeName);
+            template = V1Template(
+                srcJson: json.encode(filed.list[0]), className: filed.typeName);
           }
           templateList.add(template);
           refreshTemplate(template);
@@ -67,13 +77,28 @@ class Generator {
 
   String get fileName => camelCase2UnderScoreCase(entityName);
 
-  static const String importString = "import 'package:json_annotation/json_annotation.dart';";
+  static const String importString =
+      "import 'package:json_annotation/json_annotation.dart';";
 
   String get header => """$importString 
-  
-part '$fileName.g.dart';
+      
+    part '$fileName.g.dart';
+    
+    """;
 
-""";
+  String getClassNameText() {
+    final sb = StringBuffer();
+    for (final template in templateList) {
+      String text = "${template.className} : ${template.className}";
+      sb.writeln(text);
+    }
+    return sb.toString();
+  }
+
+  void changeClassName(String text) {
+    final texts = text.split("\n");
+    print(texts);
+  }
 }
 
 String camelCase2UnderScoreCase(String name) {
