@@ -10,6 +10,7 @@ String entityName = null;
 bool useJsonKey = true;
 
 bool isCamelCase = true;
+bool isStaticMethod = true;
 
 var downloadFileName = "";
 
@@ -61,6 +62,7 @@ void main() async {
 
   InputElement eJsonKey = querySelector("#use_json_key");
   InputElement eCamelCase = querySelector("#camelCase");
+  InputElement eUseStatic = querySelector("#use_static");
   TextAreaElement result = querySelector("#result");
   RadioButtonInputElement v0 = querySelector("#v0");
   RadioButtonInputElement v1 = querySelector("#v1");
@@ -122,6 +124,17 @@ void main() async {
 
   querySelector("#camelCaseLabel").onClick.listen((event) {
     eCamelCase.checked = !eCamelCase.checked;
+    refreshData();
+  });
+
+  eUseStatic.checked = isStaticMethod;
+  eUseStatic.onInput.listen((event) {
+    isStaticMethod = eUseStatic.checked;
+    refreshData();
+  });
+
+  querySelector("#useStaticLabel").onClick.listen((event) {
+    eUseStatic.checked = !eUseStatic.checked;
     refreshData();
   });
 
