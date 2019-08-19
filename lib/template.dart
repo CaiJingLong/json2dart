@@ -97,6 +97,9 @@ class DefaultTemplate extends Template {
 
   @override
   String method() {
+    if (main.isStaticMethod) {
+      return "  static $className fromJson(Map<String, dynamic> srcJson) => _\$${className}FromJson(srcJson);";
+    }
     return "  factory $className.fromJson(Map<String, dynamic> srcJson) => _\$${className}FromJson(srcJson);";
   }
 
@@ -108,22 +111,27 @@ class DefaultTemplate extends Template {
     if (this is ListTemplate) {
       return this;
     }
-    return ListTemplate(srcJson: srcJson, className: className, delegateTemplate: this);
+    return ListTemplate(
+        srcJson: srcJson, className: className, delegateTemplate: this);
   }
 }
 
 class ListTemplate extends DefaultTemplate {
   Template delegateTemplate;
 
-  ListTemplate({String srcJson, String className = "Entity", this.delegateTemplate}) : super(className: className, srcJson: srcJson);
+  ListTemplate(
+      {String srcJson, String className = "Entity", this.delegateTemplate})
+      : super(className: className, srcJson: srcJson);
 
   @override
   String declare() {
-    return _declareListMethod() + "\n" + delegateTemplate?.declare() ?? super.declare();
+    return _declareListMethod() + "\n" + delegateTemplate?.declare() ??
+        super.declare();
   }
 
   String _declareListMethod() {
-    var listMethod = """List<$className> get${className}List(List<dynamic> list){
+    var listMethod =
+        """List<$className> get${className}List(List<dynamic> list){
     List<$className> result = [];
     list.forEach((item){
       result.add($className.fromJson(item));
@@ -154,11 +162,13 @@ class ListTemplate extends DefaultTemplate {
   }
 
   @override
-  List<Field> get fieldList => FieldHelper(json.encode(json.decode(srcJson)[0])).getFields();
+  List<Field> get fieldList =>
+      FieldHelper(json.encode(json.decode(srcJson)[0])).getFields();
 }
 
 class V1Template extends DefaultTemplate {
-  V1Template({String srcJson, String className = "Entity"}) : super(className: className, srcJson: srcJson);
+  V1Template({String srcJson, String className = "Entity"})
+      : super(className: className, srcJson: srcJson);
 
   @override
   String interface() => "";
@@ -168,7 +178,8 @@ class V1Template extends DefaultTemplate {
     var result = StringBuffer();
     result.writeln(super.method());
     result.writeln();
-    result.write("  Map<String, dynamic> toJson() => _\$${className}ToJson(this);");
+    result.write(
+        "  Map<String, dynamic> toJson() => _\$${className}ToJson(this);");
     return result.toString();
   }
 }
