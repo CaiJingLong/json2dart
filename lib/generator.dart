@@ -54,7 +54,7 @@ class Generator {
       final template = templateList[i];
       final line = lines[i].trim();
       final inputKeyValue = line.split(":");
-      final inputName = inputKeyValue[1];
+      final inputName = inputKeyValue[1].trim();
 
       template.className = inputName;
       print("设置 template class name 为 $inputName");
