@@ -21,7 +21,6 @@ h1 {
 
 textarea {
   width: 86%;
-  height: 70vh;
 }
 
 .content {
@@ -34,7 +33,7 @@ textarea {
 }
 
 button {
-  width: 6rem;
+  width: 9rem;
   height: 2rem;
   font-size: 1rem;
 }
@@ -62,4 +61,14 @@ a:hover {
 .version {
   font-size: 10px;
   text-align: center;
+}
+
+.content_area {
+  height: 60vh;
+}
+
+#class_name {
+  width: 86%;
+  background-color: rgba(255, 255, 0, 0.164);
+  height: 60vh;
 }

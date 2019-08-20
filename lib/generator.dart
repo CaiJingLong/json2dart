@@ -37,7 +37,7 @@ class Generator {
 
   String makeDartCode() {
     StringBuffer resultSb = StringBuffer();
-    handleTemplate(templateList);
+    handleInputClassName();
 
     resultSb.writeln(header);
     templateList.forEach((template) {
@@ -46,7 +46,20 @@ class Generator {
     return resultSb.toString();
   }
 
-  void handleTemplate(List<DefaultTemplate> templateList) {}
+  void handleInputClassName() {
+    final text = eClassName.value;
+    final lines = text.split("\n");
+
+    for (var i = 0; i < templateList.length; i++) {
+      final template = templateList[i];
+      final line = lines[i].trim();
+      final inputKeyValue = line.split(":");
+      final inputName = inputKeyValue[1];
+
+      template.className = inputName;
+      print("设置 template class name 为 $inputName");
+    }
+  }
 
   void refreshTemplate(DefaultTemplate template) {
     var fieldList = template.fieldList;
@@ -93,11 +106,6 @@ class Generator {
       sb.writeln(text);
     }
     return sb.toString();
-  }
-
-  void changeClassName(String text) {
-    final texts = text.split("\n");
-    print(texts);
   }
 }
 

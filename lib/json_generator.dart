@@ -29,7 +29,7 @@ enum Version { v0, v1 }
 Version v = Version.v0;
 
 TextAreaElement eResult;
-Element eClassName;
+TextAreaElement eClassName;
 Element editButton;
 void main() async {
   isChinese = await _isChinese();
@@ -244,10 +244,14 @@ void makeCode(Generator generator) {
   } else {
     filePrefix = "your dart file name is:";
   }
-  // print(filePrefix);
-  querySelector("#file_name").text = "$filePrefix $dartFileName";
+  final resultName = "$filePrefix $dartFileName";
+  writeToResult(resultName, dartCode);
+}
 
-  eResult.value = dartCode;
+void writeToResult(String resultName, String resultText) {
+  // print(filePrefix);
+  querySelector("#file_name").text = resultName;
+  eResult.value = resultText;
 }
 
 String formatJson(String jsonString) {
@@ -266,5 +270,15 @@ void showOrClassName() {
 }
 
 void refreshClassNameChange(String text) {
-  generator.changeClassName(text);
+  final value = generator.makeDartCode();
+  String filePrefix;
+  if (isChinese) {
+    filePrefix = "应该使用的文件名为:";
+  } else {
+    filePrefix = "your dart file name is:";
+  }
+  var dartFileName = ("${generator.fileName}.dart");
+  downloadFileName = dartFileName;
+  final resultName = "$filePrefix $dartFileName";
+  writeToResult(resultName, value);
 }
