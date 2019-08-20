@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta lang="en" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="scaffolded-by" content="https://github.com/google/stagehand" />
+    <title>json2dart_for_json_serializable</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="icon" href="favicon.ico" />
+    <script defer src="main.dart.js"></script>
+  </head>
+
+  <body>
+    <div class="lang">
+      <a href="index_ch.html">中文</a>
+      <a href="https://github.com/caijinglong/json2dart">
+        <img src="github_logo.jpg" width="50px" />
+      </a>
+    </div>
+    <div>
+      <h1>
+        simple use
+        <a
+          href="https://pub.dartlang.org/packages/json_serializable"
+          target="_blank"
+          >json_serializable</a
+        >
+      </h1>
+      <div class="version">
+        <input
+          class="version"
+          type="radio"
+          value="0"
+          name="version"
+          id="v0"
+          checked="true"
+        /><label for="v0">v0.x.x</label>
+        <input
+          class="version"
+          type="radio"
+          value="1"
+          name="version"
+          id="v1"
+        /><label for="v1">v1.x.x</label>
+      </div>
+      <div>
+        <div class="title">
+          <span class="half_span">copy your json to left textarea</span>
+          <span class="half_span">
+            <div class="result_title">
+              dart class name
+              <input id="out_entity_name" />
+              <input type="checkbox" id="use_json_key" />
+              <span id="check_label">jsonKey annotation</span>
+              <input type="checkbox" id="camelCase" />
+              <span id="camelCaseLabel">use camelCase</span>
+              <input type="checkbox" id="use_static" />
+              <span id="useStaticLabel">use static</span>
+            </div>
+            <div id="file_name"></div>
+          </span>
+        </div>
+        <div class="content">
+          <span class="half_span">
+            <textarea id="json" title="json" class="content_area"></textarea>
+          </span>
+          <span class="half_span">
+            <textarea
+              id="result"
+              title="result"
+              class="content_area"
+            ></textarea>
+            <textarea
+              id="class_name"
+              title="class name"
+              class="content_area"
+              hidden
+            ></textarea>
+          </span>
+        </div>
+        <div class="func">
+          <span class="half_span">
+            <button id="format">format</button>
+          </span>
+          <span class="half_span">
+            <button id="edit_class">edit class name</button>
+            <button id="copy">copy</button>
+            <button id="save">download</button>
+          </span>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

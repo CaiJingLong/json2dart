@@ -1,0 +1,74 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+h1 {
+  text-align: center;
+}
+
+.half_span {
+  width: 50%;
+  float: left;
+  text-align: center;
+}
+
+textarea {
+  width: 86%;
+}
+
+.content {
+  padding-top: 5vh;
+}
+
+.func .half_span {
+  height: 7rem;
+  padding-top: 1rem;
+}
+
+button {
+  width: 9rem;
+  height: 2rem;
+  font-size: 1rem;
+}
+
+#file_name {
+  font-size: 0.5rem;
+  padding-top: 5px;
+  color: mediumvioletred;
+}
+
+.lang {
+  padding-right: 1vw;
+  padding-top: 1vh;
+  text-align: right;
+}
+
+a {
+  color: blue;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration-line: underline;
+}
+
+.version {
+  font-size: 10px;
+  text-align: center;
+}
+
+.content_area {
+  height: 60vh;
+}
+
+#class_name {
+  width: 86%;
+  background-color: rgba(255, 255, 0, 0.164);
+  height: 60vh;
+}
