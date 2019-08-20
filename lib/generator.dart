@@ -57,7 +57,6 @@ class Generator {
       final inputName = inputKeyValue[1].trim();
 
       template.className = inputName;
-      print("设置 template class name 为 $inputName");
     }
   }
 
